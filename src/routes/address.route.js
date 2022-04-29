@@ -1,9 +1,11 @@
 const express = require("express");
 const { add } = require("nodemon/lib/rules");
-const authUser = require("../middleware/auth");
-const authAdmin = require("../middleware/auth");
+const { authUser, authAdmin, authUserOrAdmin } = require("../middleware/auth");
+
 const router = new express.Router();
+
 const Address = require("../models/address.model");
+const Shop = require("../models/shop.model");
 
 router.post("/address", authAdmin, async (req, res) => {
   const address = new Address(req.body);
@@ -15,6 +17,19 @@ router.post("/address", authAdmin, async (req, res) => {
   }
 });
 
+router.get("/address", authAdmin, async (req, res) => {
+  try {
+    const address = await Address.find();
+
+    if (!address) {
+      return res.status(404).send();
+    }
+    res.send(address);
+  } catch (e) {
+    console.log(e);
+    res.status(400).send();
+  }
+});
 router.get("/address", authAdmin, async (req, res) => {
   try {
     const address = await Address.find();
@@ -51,19 +66,21 @@ router.patch("/address/:id", authAdmin, async (req, res) => {
   }
 });
 
-router.delete("/address/:id", authUser, async (req, res) => {
+router.delete("/address/:id", authAdmin, async (req, res) => {
   try {
     const address = await Address.findById(req.params.id);
     if (!address) {
       return res.status(404).send("not found");
     }
-    if (address.shopId !== null) {
+    const shop = await Shop.find({ address });
+    if (shop) {
       return res
         .status(400)
         .send("not autherized to delete address of occupied shop");
+    } else {
+      const result = await Address.deleteOne({ address });
+      res.status(200).send(result);
     }
-    const result = await Address.deleteOne({ address });
-    res.status(200).send(result);
   } catch (e) {
     res.status(500).send(e);
   }

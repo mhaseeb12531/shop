@@ -5,6 +5,11 @@ const addressSchema = mongoose.Schema(
     shopNo: {
       type: String,
       required: true,
+      unique: true,
+    },
+    floor: {
+      type: String,
+      required: true,
     },
     plaza: {
       type: String,
@@ -16,15 +21,12 @@ const addressSchema = mongoose.Schema(
     },
     state: {
       type: String,
+      enum: ["punjab", "sindh", "kpk", "balochistan"],
       required: true,
     },
     zipcode: {
       type: String,
       required: true,
-    },
-    shopId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Shop",
     },
   },
   {

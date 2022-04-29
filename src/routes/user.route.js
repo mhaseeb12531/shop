@@ -1,6 +1,5 @@
 const express = require("express");
-const authUser = require("../middleware/auth");
-const authAdmin = require("../middleware/auth");
+const { authUser, authAdmin, authUserOrAdmin } = require("../middleware/auth");
 const { findByIdAndDelete } = require("../models/user.model");
 const router = new express.Router();
 const User = require("../models/user.model");
@@ -96,7 +95,7 @@ router.get("/user", authAdmin, async (req, res) => {
     res.status(400).send();
   }
 });
-router.get("/user/:id", authAdmin, async (req, res) => {
+router.get("/user/:id", authUser, async (req, res) => {
   const _id = req.params.id;
   try {
     const user = await User.findById(_id);

@@ -11,7 +11,7 @@ const shopSchema = mongoose.Schema(
       type: Boolean,
     },
     address: {
-      type: [mongoose.Schema.Types.ObjectId],
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Address",
       required: true,
     },

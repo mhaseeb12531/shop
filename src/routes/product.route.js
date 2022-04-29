@@ -1,6 +1,5 @@
 const express = require("express");
-const authUser = require("../middleware/auth");
-const authAdmin = require("../middleware/auth");
+const { authUser, authAdmin, authUserOrAdmin } = require("../middleware/auth");
 const router = new express.Router();
 const Product = require("../models/product.model");
 
@@ -26,7 +25,7 @@ router.get("/product", authAdmin, async (req, res) => {
     res.status(400).send();
   }
 });
-router.get("/product/:id", authUser, async (req, res) => {
+router.get("/product/:id", authUserOrAdmin, async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (!product) {
