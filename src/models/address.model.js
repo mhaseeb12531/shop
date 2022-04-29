@@ -33,10 +33,7 @@ const addressSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-addressSchema.pre("save", async function (next) {
-  const shop = this;
-  next();
-});
+
 const Address = mongoose.model("Address", addressSchema);
 
 module.exports = Address;

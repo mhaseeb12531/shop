@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["sold out", "availible"],
+      enum: ["sold out", "available"],
     },
     description: {
       type: String,
