@@ -1,11 +1,9 @@
 var express = require("express");
 const { json } = require("express");
 require("./db/mongoose");
-const jwt = require("jsonwebtoken");
 
 const userRouter = require("./routes/user.route");
 const shopRouter = require("./routes/shop.route");
-const indexRouter = require("./routes/index");
 const addressRouter = require("./routes/address.route");
 const productRouter = require("./routes/product.route");
 

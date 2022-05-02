@@ -16,7 +16,7 @@ const authAdmin = async (req, res, next) => {
     }
 
     if (user.role !== "Admin") {
-      throw new Error("Not Authorized");
+      return res.status(401).send({ message: "Not Authorized" });
     }
 
     req.token = token;
@@ -42,7 +42,7 @@ const authUser = async (req, res, next) => {
     }
 
     if (user.role !== "User") {
-      throw new Error("Not a User");
+      return res.status(401).send({ message: "Not a User" });
     }
 
     req.token = token;
@@ -66,9 +66,8 @@ const authUserOrAdmin = async (req, res, next) => {
       throw new Error("Not found");
     }
 
-    console.log(user.role);
     if (user.role != "User" && user.role != "Admin") {
-      throw new Error("Not a User");
+      return res.status(401).send({ message: "Not Authorized" });
     }
 
     req.token = token;

@@ -90,7 +90,7 @@ router.patch("/shop-product/:id", authUser, async (req, res) => {
   try {
     const shop = await Shop.findByIdAndUpdate(
       req.params.id,
-      { $push: { product: "625cc31edc532b9bf8464827" } },
+      { $push: { product: req.body.product } },
       {
         new: true,
       }
@@ -105,7 +105,7 @@ router.patch("/shop-product-remove/:id", authUser, async (req, res) => {
   try {
     const shop = await Shop.findByIdAndUpdate(
       req.params.id,
-      { $pull: { product: "625cc31edc532b9bf8464827" } },
+      { $pull: { product: req.body.product } },
       {
         new: true,
       }
